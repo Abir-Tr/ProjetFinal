@@ -7,12 +7,13 @@ import Modal from "react-modal";
 import { useDispatch, useSelector } from "react-redux";
 import { adding_user, log_out, authorized } from "../redux/actions";
 import { FaHome, FaDoorOpen, FaPhoneAlt, FaUserCircle, FaSignOutAlt, FaTree, FaImages,FaSignInAlt } from "react-icons/fa";
+import BackgroundSlider from "./BackgroundSlider";
 
 const customStyles = {
   content: {
     top: "50%",
     left: "50%",
-    right: "auto",
+    right: "50%",
     bottom: "auto",
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
@@ -35,15 +36,15 @@ const Home = () => {
   useEffect(() => {
     dispatch(authorized());
   }, [dispatch]);
-  // const [showLogin,setShowLogin]=useState(false);
-  // useEffect(()=>{
-  //   if (currentUser&& currentUser.role ==='admin'){
-  //     setShowLogin(true)
+  const [showLogin,setShowLogin]=useState(false);
+  useEffect(()=>{
+    if (currentUser&& currentUser.role ==='admin'){
+      setShowLogin(true)
 
-  //   } else{
-  //     setShowLogin(false);
-  //   }
-  // },[currentUser])
+    } else{
+      setShowLogin(false);
+    }
+  },[currentUser])
 
   function openModal() {
     setIsOpen(true);
@@ -59,6 +60,7 @@ const Home = () => {
   }
   function adding(e) {
     e.preventDefault();
+    
 
     const newUser = {
       userName: currentUserName,
@@ -71,6 +73,12 @@ const Home = () => {
 
     dispatch(adding_user(newUser));
     closeModal();
+    if (showLogin==false){
+      navigate(`/ListRooms`)
+    
+    }
+      window.location.reload()
+   
 
 
     setCurrentUserName("");
@@ -87,41 +95,45 @@ const Home = () => {
 
   return (
     <>
-    
+     
       {/* <Navbar> </Navbar> */}
-
-      <nav className="custom-navbar">
-        <div  className="flex items-center gap-3 text-2xl text-green-900 font-bold">
+    
+      <nav className="custom-navbar" >
+      <div className="container-navbar">
+      <div  lassName="navbar-left">
 
           <FaTree className="brand-logo"/>
-          <span>Maison d'Hôte</span>
-        </div>
-        <div className="flex gap-6 text-lg text-gray-800 font-semibold">
-          <Link to={`/`} className="flex items-center gap-2 hover:text-green-700">
-            <FaHome /> Accueil
+          <span className="site-title">Maison d'Hôte</span>
+      </div>
+        <div className="navbar-center nav-links">
+          <Link to={`/`}><FaHome /> Accueil
           </Link>
+          <Link to={`/ListRooms`} className="flex items-center gap-2 hover:text-green-700">
+            <FaDoorOpen /> Chambres
+          </Link>
+          </div>
+          <div className="navbar-right auth-buttons">
             {currentUser && (
-              <span style={{ color: "white" }}>{currentUser.name}</span>
+              <span className="username">{currentUser.name}</span>
             )}
-            <button onClick={openModal} className="flex items-center gap-2 hover:text-green-700"><FaUserCircle />Sign in</button>
+            <button onClick={openModal} className="custom-btn"><FaUserCircle />Sign in</button>
             {currentUser ? (
-              <button onClick={loggingOut}className="flex items-center gap-2 hover:text-green-700">
+              <button onClick={loggingOut}className="custom-btn">
               <FaSignOutAlt />Logout</button>
             ) : (
               <button onClick={() => navigate(`/LoginUser`)}
-              className="flex items-center gap-2 hover:text-green-700">
+              className="custom-btn">
               <FaSignInAlt/>
               Login </button>
             )}
             {/* <Link to={`/Reservation`}>Reservation</Link> */}
-            
-            <Link to={`/ListRooms`} className="flex items-center gap-2 hover:text-green-700">
-            <FaDoorOpen /> Chambres
-          </Link>
             </div>
+            
+            
+            </div>
+        
             </nav>
-        
-        
+           
         {/* {currentUser &&(<span style={{color:"white"}} >{currentUser.name}</span>) } 
         {currentUser?(<button onClick={loggingOut}>log_out</button>): ( <button> Login</button>)} */}
     
@@ -135,65 +147,69 @@ const Home = () => {
           isOpen={modalIsOpen}
           onAfterOpen={afterOpenModal}
           onRequestClose={closeModal}
-          // style={customStyles}
-          // contentLabel="Sign In Modal"
-           className="max-w-md mx-auto mt-20 p-6 bg-white rounded-lg shadow-lg animate__animated animate__fadeIn"
-        overlayClassName="fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center"
-        >
-          <h2 className="text-2xl font-bold mb-4 text-green-800">Sign In</h2>
+           className="signin-modal"
+    overlayClassName="signin-overlay">
+           
+          <h2 className="signin-title">Sign In</h2>
           
-          <form className="flex flex-col gap-4">
+          <form className="signin-form">
+            <label>Name</label>
             <input
               type="text"
               placeholder="name"
-               className="p-2 border rounded-md"
+             className="signin-input"
               value={currentUserName}
               onChange={(e) => setCurrentUserName(e.target.value)}
             />{" "}
-            <br />
+            {/* <br /> */}
+            <label>Email</label>
             <input
               type="email"
               placeholder="email"
-                className="p-2 border rounded-md"
+                  className="signin-input"
               value={currentEmail}
               onChange={(e) => setCurrentEmail(e.target.value)}
             />{" "}
-            <br />
+            {/* <br /> */}
+            <label>CIN</label>
             <input
               type="number"
               placeholder="CIN"
-               className="p-2 border rounded-md"
+               className="signin-input"
               value={currentNumCin}
               onChange={(e) => setCurrentNumCin(e.target.value)}
             />
-            <br />
+            {/* <br /> */}
+            <label>Phone</label>
             <input
               type="number"
-               className="p-2 border rounded-md"
+               className="signin-input"
               placeholder="PHONE"
               value={currentNumTel}
               onChange={(e) => setCurrentNumTel(e.target.value)}
             />
-            <br />
+            {/* <br /> */}
+            <label>Password</label>
             <input
               type="password"
               placeholder="password"
-              className="p-2 border rounded-md"
+               className="signin-input"
               value={currentPassword}
               onChange={(e) => setCurrentPassword(e.target.value)}
             />
-            <br />
-            <div className="flex justify-between mt-4">
+            {/* <br /> */}
+            <div className="signin-buttons">
             <button   
-            className="bg-gray-400 hover:bg-gray-500 text-white py-2 px-4 rounded-md" 
+           className="signin-cancel"
             onClick={closeModal}>cancel</button>
             <button 
-            className="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-md"
+            className="signin-submit"
            onClick={adding}>S'inscrire</button>
            </div>
           </form>
         </Modal>
       </div>
+      <BackgroundSlider/>
     </>
   );
 };

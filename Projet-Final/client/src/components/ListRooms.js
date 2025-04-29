@@ -69,24 +69,25 @@ console.log(rooms)
     setDescription("");
     setPrice("");
   };
-  // window.location.reload()
 
 
-  // const reservation = ({roomId}) => {
-  //   navigate(`/Reservation/${roomId}`);
-  // };
+
+ 
+   
+
 
   return (
     <>
       {showLogin && (
-        <div>
-          <h1>Liste des Chambres</h1>
+        <div className="admin-section">
+          <h1  className="admin-title">Liste des Chambres</h1>
 
           {/* Formulaire pour ajouter une chambre */}
-          <div>
+          <div className="add-room-form">
             <h2>Ajouter une Chambre</h2>
             <form>
-              <Form.Group className="mb-3">
+            <div className="form-group">
+            <label>Type de chambre</label>
                 <Form.Select
                   value={type}
                   onChange={(e) => setType(e.target.value)}
@@ -104,8 +105,8 @@ console.log(rooms)
                     Suite junior{" "}
                   </option>
                 </Form.Select>
-              </Form.Group>
-              <div>
+              </div>
+              <div className="form-group">
                 <label>Description</label>
                 <textarea
                   value={description}
@@ -113,9 +114,11 @@ console.log(rooms)
                   placeholder="Description de la chambre"
                 />
               </div>
+              <div className="form-group" >
               <label>image</label>
               <input type="file" onChange={uploadingImage} />
-              <div>
+              </div>
+              <div className="form-group">
                 <label>Price</label>
                 <input
                   type="Number"
@@ -124,7 +127,7 @@ console.log(rooms)
                   placeholder="prix de la chambre"
                 />
               </div>
-              <div>
+              <div className="form-group">
                  <label>available</label>
             <input
             type="checkbox" 
@@ -135,7 +138,7 @@ console.log(rooms)
             /> 
                <p>{available ? "Room Available" : "Room Reserved"}</p>
           </div>
-              <button type="submit" onClick={AddRoom}>
+              <button type="submit" onClick={AddRoom}  className="btn-add-room">
                 Add
               </button>
              
@@ -145,9 +148,9 @@ console.log(rooms)
       )}
 
       <div className="room-list-container">
-        <h2>Nos Chambres Disponibles</h2>
+        <h2 className="page-header">Nos Chambres Disponibles</h2>
 
-        <div className="room-list">
+        <div className="rooms-grid">
           {rooms.length === 0 ? (
             <p>Aucune chambre disponible pour le moment.</p>
           ) : ( 

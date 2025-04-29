@@ -8,7 +8,7 @@ const isAuth =require ('../middleware/isAuth')
 
 route.post("/addReservation", async (req, res) => {
   try {
-      const { customerName,checkIn, checkOut, status, roomId, userId} = req.body;
+      const {checkIn, checkOut, status, roomId, userId} = req.body;
       
 if(!mongoose.Type.objectId.isValid(roomId)){
   return res.status(400).json({message:"idde chambre invalide"})
@@ -22,10 +22,11 @@ if(!mongoose.Type.objectId.isValid(roomId)){
       if (room.available == false) {
           return res.status(400).json({ message: 'room not available' });
       }
-
+      room.available = false;
+      await room.save();
      
       const reservation = new Reservation({
-          customerName: customerName,
+          
           checkIn: checkIn,
           checkOut: checkOut,
           status: status,
@@ -35,8 +36,7 @@ if(!mongoose.Type.objectId.isValid(roomId)){
 console.log("abir")
       await reservation.save();
     
-      room.available = false;
-      await room.save();
+      
 console.log("roomid is :" ,roomId)
       return res.status(200).json({ message: 'reservation done with success', reservation });
 

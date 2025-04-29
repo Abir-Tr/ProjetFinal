@@ -71,20 +71,20 @@ const reservingRoom = () => {
     <>
       <Card style={{ width: "18rem" }}>
         <Card.Body>
-          <Card.Title>{type}</Card.Title>
-          <img src={image} alt="the RoomTof" style={{width:"100px", height:"100px"}}/>
-          <h4>price: {price} dt</h4>
-          <h2>description:{description}</h2>
+          <Card.Title className="room-type">{type}</Card.Title>
+          <img src={image} alt="the RoomTof"className="room-image"/>
+          <h4 className="room-price">price: {price} dt</h4>
+          <p className="room-description">description:{description}</p>
           <h3>{available === true ? <span>Room Available</span> : <span>Room Reserved</span>}
 </h3>
-<button onClick={reservingRoom} style={{ padding: '10px', backgroundColor: 'green', color: 'white' }} > Réserver cette chambre</button>
+<button onClick={reservingRoom} className="btn-reserve"> Réserver cette chambre</button>
           {/* <button onClick={reservation} className="reserve-button">
                  Réserver
                </button> */}
-          {showLogin&& <div>
-                
+          {showLogin&& <div className="admin-actions">
+            
                   <button onClick={deletingRoom}>delete room</button>
-                  <section>
+                  <section className="update-form">
   <h5>updating room</h5>
   <label>type</label>
       <input type="text" value={newType} onChange={(e)=> setNewType(e.target.value)}/><br></br>
@@ -95,11 +95,12 @@ const reservingRoom = () => {
       <input type="file" onChange={uploadingImage}/>
       <br></br><label>available</label>
       <input type="checkbox" value={newAvailable} onChange={(e)=> setNewAvailable(e.target.value)}/><br></br>
-      <button onClick={updatingRoom}>update room</button>
+      <button onClick={updatingRoom} className="btn-update">update room</button>
 
     
 </section>
-                </div>}
+                </div>
+                }
 
         </Card.Body>
       </Card>

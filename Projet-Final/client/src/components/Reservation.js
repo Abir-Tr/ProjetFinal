@@ -59,7 +59,7 @@ const Reservation=()=>{
     const room = useSelector((state) => state.rooms);
     console.log("roomdispo :", room);
     const reservations = useSelector((state) => state.reservations);
-    const [newCustomerName,setNewCustomerName]=useState("")
+    // const [newCustomerName,setNewCustomerName]=useState("")
     const [newChekIn,setNewChekIn]=useState("")
     const [newChekOut,setNewChekOut]=useState("")
     const [status,setStatus]=useState("")
@@ -96,10 +96,12 @@ const Reservation=()=>{
 useEffect(()=>{
   dispatch(affich_Rooms());
 },[dispatch]);
-    useEffect(()=>{
-      dispatch(authorized());
-  }, [dispatch]);
 
+  //   useEffect(()=>{
+  //     dispatch(authorized());
+  // }, [dispatch]);
+  
+console.log(currentUser)
     useEffect(() => {
       dispatch(getAllReservations());
     }, [dispatch]);
@@ -168,49 +170,48 @@ useEffect(()=>{
       // //   return;
       // }
         const reservationData={
-          customerName: newCustomerName,
+          
             checkIn:newChekIn,
             checkOut:newChekOut,
             status:status,
           roomId:roomId ,
           userId: currentUser._id 
         }
-        console.log('newReservation envoyé :',reservationData);
-        console.log('userenvoyé :',currentUser._id);
+
+        // console.log('newReservation envoyé :',reservationData);
+        // console.log('userenvoyé :',currentUser._id);
         dispatch(reserveChambre(reservationData))
         // navigate('/Facture');
-        console.log("Room ID reçu :",room._id);
-        console.log('aaaaa',reservationData)
+        // console.log("Room ID reçu :",room._id);
+        // console.log('aaaaa',reservationData)
       }
    
     return(<>
 
-<div style={styles.container}>
-      <h2 style={styles.title}>Faire une réservation</h2>
-      <form onSubmit={reserve} style={styles.form}>
-      <label style={styles.label}>Nom du client</label>
+<div className="reservation-modal">
+      <h2 className="reservation-title">Faire une réservation</h2>
+      <form onSubmit={reserve} className="reservation-form">
+      <label className="reservation-label">Nom du client</label>
         <input
           type="text"
           name="customerName"
-          value={newCustomerName}
-          onChange={(e)=>setNewCustomerName(e.target.value)}
-            style={styles.input}
+        className="reservation-input"
         />
-          <label style={styles.label}>Date d'arrivée</label>
+          <label  className="reservation-label">Date d'arrivée</label>
         <input
           type="date"
           name="chekIn"
           value={newChekIn}
           onChange={(e)=>setNewChekIn(e.target.value)}
-          style={styles.input}
+            className="reservation-input"
         />
-          <label style={styles.label}>Date de départ</label>
+          <label className="reservation-label">Date de départ</label>
         <input
           type="date"
           name="chekOut"
           value={newChekOut}
           onChange={(e)=>setNewChekOut(e.target.value)}
-          style={styles.input}
+          className="reservation-input"
         />
 
 {/* <label style={styles.label}>Choisir une chambre</label>
@@ -230,7 +231,7 @@ useEffect(()=>{
 
 
         {/* Sélecteur de chambre ici, par exemple */}
-         <button type="submit"style={styles.button}>Réserver</button>
+         <button type="submit"className="reservation-button">Réserver</button>
       </form>
     </div> 
 
